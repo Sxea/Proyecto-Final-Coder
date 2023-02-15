@@ -20,6 +20,8 @@ public class Viking : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private Animator animationViking;
     private bool isActived;
+    [SerializeField] private Rigidbody vikingRigidbody;
+    [SerializeField] private float forceAmount;
     void Start()
     {
         
@@ -29,7 +31,12 @@ public class Viking : MonoBehaviour
     void Update()
     {
         Movement();
-        AnimationViking();
+        if (Input.GetKey(KeyCode.Space))
+        {
+            RayCastJump();
+        }
+
+
     }
     private void Movement()
     {
@@ -43,23 +50,8 @@ public class Viking : MonoBehaviour
        
     }
 
-    
-    
-    
-    private void AnimationViking()
+    private void RayCastJump()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ActivedTranstion(true);
-
-        }
-          
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            ActivedTranstion(false);
-        }    
-        
-        
-        
+        vikingRigidbody.AddForce(Vector3.up * forceAmount, ForceMode.Impulse);
     }
 }
