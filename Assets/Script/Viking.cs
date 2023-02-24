@@ -4,16 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum Actions
-{
-    IDL = 0,
-    HitLeft = 1,
-    HitRight = 2,
-    Block = 3,
-    Jump = 4,
-    WalkBack = 5,
-    WalkForward = 6,
-}
+
 public class Viking : MonoBehaviour
 {
     private Actions actions;
@@ -22,6 +13,14 @@ public class Viking : MonoBehaviour
     private bool isActived;
     [SerializeField] private Rigidbody vikingRigidbody;
     [SerializeField] private float forceAmount;
+    [SerializeField] private Transform footPosition;
+    [SerializeField] private float distanceOfFloor;
+    [SerializeField] private LayerMask layerTofloor;
+    [SerializeField] private Transform vikingRotation;
+    [SerializeField] private Vector3 vikingPositon;
+
+    private bool walkBack = false;
+    private bool walkFoward = false;
     void Start()
     {
         
@@ -31,12 +30,11 @@ public class Viking : MonoBehaviour
     void Update()
     {
         Movement();
-        if (Input.GetKey(KeyCode.Space))
+        AnimationController();
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             RayCastJump();
         }
-
-
     }
     private void Movement()
     {
@@ -44,14 +42,65 @@ public class Viking : MonoBehaviour
         var direction = new Vector3(hor, 0, 0);
         transform.position += direction*speed*Time.deltaTime;
     }
-    private void ActivedTranstion(bool actived)
+
+
+
+    private void AnimationController()
     {
-        animationViking.SetBool("WalkBack", actived);
-       
+        
+        
+            if (Input.GetKey(KeyCode.A))
+        {
+            animationViking.SetBool("WalkBack", true);
+            walkBack = true;
+        }
+        else
+        {
+            animationViking.SetBool("WalkBack", false);
+            walkBack = false;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            animationViking.SetBool("WalkFoward", true);
+
+        }
+        else
+        {
+            animationViking.SetBool("WalkFoward", false);
+            walkFoward = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+            animationViking.SetTrigger("Block");
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            animationViking.SetTrigger("HitLeft");
+            vikingRotation.Rotate(0, 1, 0);
+            vikingPositon += transform.position;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.J))
+            animationViking.SetTrigger("HitRight");
+        
     }
+
+
+    
+        
+
+    
 
     private void RayCastJump()
     {
-        vikingRigidbody.AddForce(Vector3.up * forceAmount, ForceMode.Impulse);
+        var collaiderFloor = Physics.Raycast(footPosition.position, footPosition.forward, out RaycastHit raycastInfo, distanceOfFloor, layerTofloor);
+        if (collaiderFloor)
+        {
+            Debug.Log($"layerToFloor{raycastInfo.collider.name}");
+            vikingRigidbody.AddForce(Vector3.up * forceAmount, ForceMode.Impulse);
+
+        }
+        else
+            Debug.Log("hasn´t collaider whit nothing");
     }
 }
