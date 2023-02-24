@@ -82,7 +82,8 @@ public class Viking : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J))
             animationViking.SetTrigger("HitRight");
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+            animationViking.SetTrigger("Jump");
     }
 
 

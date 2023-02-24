@@ -5,10 +5,11 @@ using UnityEngine;
 public class Spawn : MonoBehaviour
 {
     [SerializeField] private GameObject[] PreFab;
-
-    void Start()
+    [SerializeField] private Transform spawnPoint;
+    
+   void Start()
     {
-        
+        ChoosePrefab();
     }
 
     
@@ -18,7 +19,8 @@ public class Spawn : MonoBehaviour
     }
     private void ChoosePrefab()
     {
-        var choosenMinion = Random.Range(0, PreFab.Length);
-        //return PreFab[choosenMinion];
+        var choosenPF = Random.Range(0, PreFab.Length);
+        Instantiate(PreFab[choosenPF], spawnPoint.position,Quaternion.identity);
+        Debug.Log("anduvo");
     }
 }
