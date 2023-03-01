@@ -31,11 +31,11 @@ public class Spawn : MonoBehaviour
 
     private void Awake()
     {
-        /*for (int i =0; i < amountInstantiate; i++)
+        for (int i =0; i < amountInstantiate; i++)
         {
             ChoosePrefab();
-        }*/
-        var preFabSpawn = PrefabDictionary[PrefabType.Warrior];
+        }
+       // var preFabSpawn = PrefabDictionary[PrefabType.Warrior];
         
         /* NO FUNCIONA !
           if (PrefabDictionary.TryGetValue(warriorSpawn, out var preFabToSpawn) )
@@ -45,7 +45,7 @@ public class Spawn : MonoBehaviour
     }
     void Start()
     {
-        //ChoosePrefab();
+        
     }
 
     

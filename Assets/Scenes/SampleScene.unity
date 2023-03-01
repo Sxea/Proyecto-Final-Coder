@@ -1665,7 +1665,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.0010530819, y: 0.99863285, z: -0.04739047, w: 0.022035874}
+  m_LocalRotation: {x: 0.0010533023, y: 0.9986329, z: -0.04739047, w: 0.022031175}
   m_LocalPosition: {x: 1.42, y: 4.68, z: 111.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2878,6 +2878,27 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 8930061898044296996, guid: 9e24f0abd05f98c459dd8ab377f19fad, type: 3}
   m_PrefabInstance: {fileID: 978249227}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1183312763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168911097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe27f792d7d2adf45a565465cbf2b4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  GameObjectData: {fileID: 11400000, guid: 1b7ef5821c5e5b94ba2afcb3db7d01d9, type: 2}
+  Viking: {fileID: 1900161961}
+  persuitDistance: 2
+  warriorPosition: {fileID: 978249228}
+  raycastDistance: 1000
+  layerToViking:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1195085618
 GameObject:
   m_ObjectHideFlags: 0
@@ -3155,6 +3176,32 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4515028465240030130, guid: cb14169227bedfa49aa62635577cfe40, type: 3}
   m_PrefabInstance: {fileID: 6697072520759348804}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1591568191 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3883029609118753032, guid: cb14169227bedfa49aa62635577cfe40, type: 3}
+  m_PrefabInstance: {fileID: 6697072520759348804}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1591568192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591568190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe27f792d7d2adf45a565465cbf2b4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  GameObjectData: {fileID: 11400000, guid: 8d228930c45a6fd4d87f4378868bc70e, type: 2}
+  Viking: {fileID: 1900161961}
+  persuitDistance: 2
+  warriorPosition: {fileID: 1591568191}
+  raycastDistance: 1000
+  layerToViking:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1593303704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3390,11 +3437,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!95 &1900161965 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 39a29b3321a00bb46909df4c6fcc6dcb, type: 3}
-  m_PrefabInstance: {fileID: 478730266}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1900161966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3404,20 +3446,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1900161959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdfbe7c168a95c247b0bae33ec82fd60, type: 3}
+  m_Script: {fileID: 11500000, guid: fe27f792d7d2adf45a565465cbf2b4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  animationViking: {fileID: 1900161965}
-  vikingRigidbody: {fileID: 1900161963}
-  forceAmount: 8
-  footPosition: {fileID: 1706766552}
-  distanceOfFloor: 1
-  layerTofloor:
+  speed: 5
+  GameObjectData: {fileID: 11400000, guid: a08afd55d4e53d14287605bbf213fd30, type: 2}
+  Viking: {fileID: 1900161961}
+  persuitDistance: 10
+  warriorPosition: {fileID: 978249228}
+  raycastDistance: 1000
+  layerToViking:
     serializedVersion: 2
-    m_Bits: 64
-  vikingRotation: {fileID: 1900161961}
-  vikingPositon: {x: 0, y: 0, z: 0}
+    m_Bits: 8
 --- !u!1 &1980196594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3627,7 +3667,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00018310547, y: 444.34277}
+  m_AnchoredPosition: {x: 0.00024414062, y: 444.34277}
   m_SizeDelta: {x: 0, y: -888.6855}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2073986867

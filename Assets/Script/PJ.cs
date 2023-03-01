@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
-
-public class Viking : MonoBehaviour
+public class PJ : Gameobjects
 {
     private Actions actions;
-    [SerializeField] private float speed;
+    //[SerializeField] private float speed;
     [SerializeField] private Animator animationViking;
     private bool isActived;
     [SerializeField] private Rigidbody vikingRigidbody;
@@ -16,17 +13,16 @@ public class Viking : MonoBehaviour
     [SerializeField] private Transform footPosition;
     [SerializeField] private float distanceOfFloor;
     [SerializeField] private LayerMask layerTofloor;
-    [SerializeField] private Transform vikingRotation;
-    [SerializeField] private Vector3 vikingPositon;
+    
 
     private bool walkBack = false;
     private bool walkFoward = false;
     void Start()
     {
-        
+
     }
 
-    
+
     void Update()
     {
         Movement();
@@ -40,16 +36,16 @@ public class Viking : MonoBehaviour
     {
         var hor = Input.GetAxisRaw("Horizontal");
         var direction = new Vector3(hor, 0, 0);
-        transform.position += direction*speed*Time.deltaTime;
+        transform.position += direction * speed * Time.deltaTime;
     }
 
 
 
     private void AnimationController()
     {
-        
-        
-            if (Input.GetKey(KeyCode.A))
+
+
+        if (Input.GetKey(KeyCode.A))
         {
             animationViking.SetBool("WalkBack", true);
             walkBack = true;
@@ -75,8 +71,7 @@ public class Viking : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             animationViking.SetTrigger("HitLeft");
-            vikingRotation.Rotate(0, 1, 0);
-            vikingPositon += transform.position;
+           
         }
 
 
@@ -87,10 +82,10 @@ public class Viking : MonoBehaviour
     }
 
 
-    
-        
 
-    
+
+
+
 
     private void RayCastJump()
     {
@@ -104,4 +99,9 @@ public class Viking : MonoBehaviour
         else
             Debug.Log("hasn´t collaider whit nothing");
     }
+
+
+
+
+
 }
