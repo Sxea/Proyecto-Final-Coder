@@ -1,17 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Gameobjects
+public class Enemy : Actors
 {
     [SerializeField] private Transform Viking;
     [SerializeField] private float persuitDistance;
     [SerializeField] private Transform warriorPosition;
     [SerializeField] private float raycastDistance;
     [SerializeField] private LayerMask layerToViking;
+    [SerializeField] private float speed;
+    
 
+    public event Action<float> OnDamageEnemy;
 
-
+    private void Start()
+    {
+        PJ.OnDamage += RecivedDamage;
+    }
     void Update()
     {
         if (Input.GetKey(KeyCode.V))
@@ -40,4 +47,13 @@ public class Enemy : Gameobjects
             Debug.Log("hasn´t collaider whit nothing");
     }
 
+    private void OnHandlerDamageEnemy(float damageEnemy)
+    {
+        OnDamageEnemy?.Invoke(damageEnemy);
+    }
+    private void RecivedDamage()
+    {
+        
+        Debug.Log("recived OnDamage,from PJ , to Enemy");
+    }
 }

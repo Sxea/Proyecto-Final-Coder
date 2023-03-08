@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PJ : Gameobjects
+public class PJ : Actors
 {
-    private Actions actions;
-    //[SerializeField] private float speed;
+    
+    [SerializeField] private float speed;
     [SerializeField] private Animator animationViking;
     private bool isActived;
     [SerializeField] private Rigidbody vikingRigidbody;
@@ -17,9 +18,14 @@ public class PJ : Gameobjects
 
     private bool walkBack = false;
     private bool walkFoward = false;
+
+    public event Action<bool> OnDamage;
+    
+
+
     void Start()
     {
-
+        
     }
 
 
@@ -71,7 +77,7 @@ public class PJ : Gameobjects
         if (Input.GetKeyDown(KeyCode.K))
         {
             animationViking.SetTrigger("HitLeft");
-           
+            OnDamage?.Invoke(animationViking);
         }
 
 
@@ -100,8 +106,31 @@ public class PJ : Gameobjects
             Debug.Log("hasn´t collaider whit nothing");
     }
 
+ 
+    private void OnHandlerDamage(float damage)
+    {
+
+    }
+
+    public class HealtController
+    {
+        private float currentHealt;
+        private float maxHealt;
+        public event Action<float> OnHealt;
 
 
 
 
+
+        public void RecivedDamage(float p_currentDamage)
+        {
+            currentHealt -= p_currentDamage;
+            OnHealt?.Invoke(currentHealt);
+        }
+        public void HealtDamage(float p_currentHealt)
+        {
+            currentHealt += p_currentHealt;
+            OnHealt?.Invoke(currentHealt);
+        }
+    }
 }
