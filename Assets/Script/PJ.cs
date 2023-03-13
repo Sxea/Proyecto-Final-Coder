@@ -2,24 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PJ : Actors
 {
-    
+    [SerializeField] private UnityEvent onDied;
     [SerializeField] private float speed;
     [SerializeField] private Animator animationViking;
-    private bool isActived;
     [SerializeField] private Rigidbody vikingRigidbody;
     [SerializeField] private float forceAmount;
     [SerializeField] private Transform footPosition;
     [SerializeField] private float distanceOfFloor;
     [SerializeField] private LayerMask layerTofloor;
-    
-
+    private bool isActived;
+    public bool isDeath;
     private bool walkBack = false;
     private bool walkFoward = false;
 
-    public event Action<bool> OnDamage;
+    
+    
     
 
 
@@ -31,18 +32,31 @@ public class PJ : Actors
 
     void Update()
     {
-        Movement();
-        AnimationController();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isDeath)
         {
-            RayCastJump();
+            Death();
         }
+        else
+        {
+            Movement();
+            AnimationController();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                RayCastJump();
+            }
+
+        }
+
+
     }
     private void Movement()
     {
         var hor = Input.GetAxisRaw("Horizontal");
-        var direction = new Vector3(hor, 0, 0);
+        var ver = Input.GetAxisRaw("Vertical"); 
+        var direction = new Vector3(hor, 0, ver);
         transform.position += direction * speed * Time.deltaTime;
+        //transform.Rotate (new Vector3(0, 90, 0));
+        
     }
 
 
@@ -77,7 +91,7 @@ public class PJ : Actors
         if (Input.GetKeyDown(KeyCode.K))
         {
             animationViking.SetTrigger("HitLeft");
-            OnDamage?.Invoke(animationViking);
+            
         }
 
 
@@ -107,30 +121,15 @@ public class PJ : Actors
     }
 
  
-    private void OnHandlerDamage(float damage)
+    public void Death()
     {
+        onDied.Invoke();
+    }
+
+    public void Evento()
+    {
+        Debug.Log("el evento se activo");
 
     }
 
-    public class HealtController
-    {
-        private float currentHealt;
-        private float maxHealt;
-        public event Action<float> OnHealt;
-
-
-
-
-
-        public void RecivedDamage(float p_currentDamage)
-        {
-            currentHealt -= p_currentDamage;
-            OnHealt?.Invoke(currentHealt);
-        }
-        public void HealtDamage(float p_currentHealt)
-        {
-            currentHealt += p_currentHealt;
-            OnHealt?.Invoke(currentHealt);
-        }
-    }
 }

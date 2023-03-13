@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Networking.Types;
 
 public class Enemy : Actors
 {
@@ -11,13 +13,20 @@ public class Enemy : Actors
     [SerializeField] private float raycastDistance;
     [SerializeField] private LayerMask layerToViking;
     [SerializeField] private float speed;
+    [SerializeField] private UnityEvent life;
     
+    // borrar
+    ButtonPlay button;
 
     public event Action<float> OnDamageEnemy;
 
     private void Start()
     {
-        PJ.OnDamage += RecivedDamage;
+       button= GetComponent<ButtonPlay>(); //solamente si la script esta en el mismo gameobj
+       button = GetComponentInChildren<ButtonPlay>();// solamente busca dentro de sus hijos 
+       button = FindObjectOfType<ButtonPlay>(); //solamente si la script no esta en este gameobj
+       
+        
     }
     void Update()
     {
@@ -25,7 +34,8 @@ public class Enemy : Actors
         {
             CreateRayCast();
         }
-
+       
+       
     }
 
 
@@ -55,5 +65,14 @@ public class Enemy : Actors
     {
         
         Debug.Log("recived OnDamage,from PJ , to Enemy");
+    }
+    public void MeMori(string texto)
+    {
+        Debug.Log(texto);
+    }
+
+    private void healtEnemy()
+    {
+        life.Invoke();
     }
 }
