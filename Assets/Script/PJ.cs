@@ -54,8 +54,13 @@ public class PJ : Actors
         var hor = Input.GetAxisRaw("Horizontal");
         var ver = Input.GetAxisRaw("Vertical"); 
         var direction = new Vector3(hor, 0, ver);
-        transform.position += direction * speed * Time.deltaTime;
-        //transform.Rotate (new Vector3(0, 90, 0));
+        
+        if (direction.magnitude >= 0.1f)
+        {
+            float targetAngle = MathF.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            transform.position += direction * speed * Time.deltaTime;
+        }
         
     }
 
@@ -97,8 +102,16 @@ public class PJ : Actors
 
         if (Input.GetKeyDown(KeyCode.J))
             animationViking.SetTrigger("HitRight");
+        
         if (Input.GetKeyDown(KeyCode.Space))
-            animationViking.SetTrigger("Jump");
+        {
+            animationViking.SetBool("Jump", true);
+        }
+        else
+        {
+            animationViking.SetBool("Jump", false);
+        }
+            
     }
 
 
