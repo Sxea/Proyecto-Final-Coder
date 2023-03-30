@@ -6,7 +6,7 @@ using UnityEditor;
 
 public class UIController : MonoBehaviour
 {
-    private HealtController healtController;
+    
     
     [SerializeField] private GameObject activedCanvas;
     public bool isDeath;

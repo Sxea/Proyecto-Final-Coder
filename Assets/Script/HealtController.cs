@@ -1,45 +1,30 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealtController : MonoBehaviour
 {
-    [SerializeField] public float currentHealt;
-    [SerializeField] public float maxHealt;
-    [SerializeField] private Slider healtSlider;
-    public event Action<int> OnDamageTaken;
-    
-    public event Action OnDeath;
+    public float hpMin;
+    public int hpMax;
+    public Image bar;
     void Start()
     {
-        
-        currentHealt = maxHealt;
-    
+        hpMin = hpMax;
     }
 
-    private void Update()
+    
+    void Update()
     {
-        
-    }
-    public void TakeDamage(int damage)
-    {
-        currentHealt -= damage;
-        if (currentHealt <= 0)
-        {
-            currentHealt= 0;
-            OnDeath?.Invoke();
-        }
-        else
-        {
-            OnDamageTaken?.Invoke(damage);
-            healtSlider.value = currentHealt;
+        ControllerHealt();
+        if(hpMin <= 0) 
+        { 
+            gameObject.SetActive(false);
         }
     }
-    [ContextMenu("TestDamage")]
-    public void TestDamage()
+
+    public void ControllerHealt()
     {
-        TakeDamage(10);
+        bar.fillAmount = hpMin / hpMax;
     }
 }

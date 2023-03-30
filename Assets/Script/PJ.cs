@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PJ : Actors
 {
@@ -14,19 +15,21 @@ public class PJ : Actors
     [SerializeField] private Transform footPosition;
     [SerializeField] private float distanceOfFloor;
     [SerializeField] private LayerMask layerTofloor;
+    
     private bool isActived;
     public bool isDeath;
-    private bool walkBack = false;
-    private bool walkFoward = false;
+    public float hpMin;
+    public int hpMax;
+    public Image bar;
+    private NormalEnemy enemy;
 
-    
-    
-    
+
+
 
 
     void Start()
     {
-        
+        hpMin = hpMax;
     }
 
 
@@ -44,9 +47,9 @@ public class PJ : Actors
             {
                 RayCastJump();
             }
-
         }
 
+        ControllerHealt();
 
     }
     private void Movement()
@@ -73,36 +76,28 @@ public class PJ : Actors
         if (Input.GetKey(KeyCode.A))
         {
             animationViking.SetBool("WalkBack", true);
-            walkBack = true;
         }
         else
         {
             animationViking.SetBool("WalkBack", false);
-            walkBack = false;
         }
         if (Input.GetKey(KeyCode.D))
         {
             animationViking.SetBool("WalkFoward", true);
-
         }
         else
         {
             animationViking.SetBool("WalkFoward", false);
-            walkFoward = false;
         }
-
         if (Input.GetKeyDown(KeyCode.H))
             animationViking.SetTrigger("Block");
         if (Input.GetKeyDown(KeyCode.K))
         {
             animationViking.SetTrigger("HitLeft");
             
-        }
-
-
+        }      
         if (Input.GetKeyDown(KeyCode.J))
             animationViking.SetTrigger("HitRight");
-        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             animationViking.SetBool("Jump", true);
@@ -113,13 +108,6 @@ public class PJ : Actors
         }
             
     }
-
-
-
-
-
-
-
     private void RayCastJump()
     {
         var collaiderFloor = Physics.Raycast(footPosition.position, footPosition.forward, out RaycastHit raycastInfo, distanceOfFloor, layerTofloor);
@@ -132,17 +120,25 @@ public class PJ : Actors
         else
             Debug.Log("hasn´t collaider whit nothing");
     }
-
- 
+    public void ControllerHealt()
+    {
+        bar.fillAmount = hpMin / hpMax;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("recibi daño");
+        if(other.CompareTag("Weapon"))
+        {
+            hpMin -= 20;
+            
+        }
+    }
+    
     public void Death()
     {
         onDied.Invoke();
     }
 
-    public void Evento()
-    {
-        Debug.Log("el evento se activo");
-
-    }
+ 
 
 }

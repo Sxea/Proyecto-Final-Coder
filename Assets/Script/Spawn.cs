@@ -29,7 +29,7 @@ public class Spawn : MonoBehaviour
         PrefabDictionary.Add(PrefabType.Egyptian, egyptian);
     }
 
-    private void Awake()
+    /*private void Awake()
     {
         for (int i =0; i < amountInstantiate; i++)
         {
@@ -41,22 +41,19 @@ public class Spawn : MonoBehaviour
           if (PrefabDictionary.TryGetValue(warriorSpawn, out var preFabToSpawn) )
         {
              preFabToSpawn;
-        }*/
-    }
-    void Start()
-    {
-        
-    }
+        }
+    }*/
 
-    
+
+
     void Update()
     {
         
     }
-    private void ChoosePrefab()
+    /*private void ChoosePrefab()
     {
         var choosenPF = Random.Range(0, PreFab.Count);
         Instantiate(PreFab[choosenPF], spawnPoint.position,Quaternion.identity);
         Debug.Log("anduvo");
-    }
+    }*/
 }
