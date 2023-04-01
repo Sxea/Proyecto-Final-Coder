@@ -22,7 +22,7 @@ public class NormalEnemy : MonoBehaviour
 
     private void ControllerEnemy()
     {
-        if (Vector3.Distance(transform.position, target.transform.position) > 5)
+        if (Vector3.Distance(transform.position, target.transform.position) > 5) 
         {
             ani.SetBool("run", false);
             chronometer += 1 * Time.deltaTime;

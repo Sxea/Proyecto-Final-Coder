@@ -107,8 +107,8 @@ public class Boss : MonoBehaviour
                         break;
                     case 3:
                         //Jump Attack//
-                        if ( fase == 2) 
-                        {
+                        
+                        
                             jumpDistance += 1 * Time.deltaTime;
                             animator.SetBool("walk", false);
                             animator.SetBool("attack", true);
@@ -124,15 +124,10 @@ public class Boss : MonoBehaviour
                                 }
                                 transform.Translate(Vector3.forward*8*Time.deltaTime);
                             }
-                        }
-                        else
-                        {
-                            routine= 0;
-                            chronometer=0;
-                        }
+                      
                         break;
                     case 4:
-                        if ( fase == 2) 
+                         
                         {
                             animator.SetBool("walk", false);
                             animator.SetBool("attack", true);
@@ -141,11 +136,7 @@ public class Boss : MonoBehaviour
                             range.GetComponent<CapsuleCollider>().enabled = false;
                             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.5f);
                         }
-                        else
-                        {
-                            routine= 0;
-                            chronometer= 0;
-                        }
+                     
                         break;
                 }
             }

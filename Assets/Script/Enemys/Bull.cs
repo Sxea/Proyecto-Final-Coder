@@ -1,24 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Bull : MonoBehaviour
 {
-    [SerializeField] private float chronometer;
+    [SerializeField] private float speed;
+    [SerializeField] private Transform viking;
+    [SerializeField] private float timeDestroyBullet;
+    private MonsterEnemy wizard;
     void Start()
     {
-        
+      
     }
 
     
     void Update()
     {
-        chronometer += 1 * Time.deltaTime;
-        if (chronometer>3) 
-        { 
-            gameObject.SetActive( false );
-            chronometer= 0;
-        }
-        transform.Translate(Vector3.forward * 15 * Time.deltaTime);
+        Destroy(gameObject, timeDestroyBullet);
+        transform.position += viking.position * speed * Time.deltaTime;
     }
 }
