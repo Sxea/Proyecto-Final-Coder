@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PJ : Actors
@@ -15,13 +16,15 @@ public class PJ : Actors
     [SerializeField] private Transform footPosition;
     [SerializeField] private float distanceOfFloor;
     [SerializeField] private LayerMask layerTofloor;
-    
-    private bool isActived;
-    public bool isDeath;
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private float maxTimer;
+    private float timer;
+    //private bool isActived;
+    //public bool isDeath;
     public float hpMin;
     public int hpMax;
     public Image bar;
-    private NormalEnemy enemy;
+    
     void Start()
     {
         hpMin = hpMax;
@@ -30,8 +33,10 @@ public class PJ : Actors
 
     void Update()
     {
-        if (isDeath)
+        if (hpMin <= 0)
         {
+            animationViking.SetTrigger("Dead");
+            timer += Time.deltaTime;
             Death();
         }
         else
@@ -45,7 +50,7 @@ public class PJ : Actors
         }
 
         ControllerHealt();
-
+       
     }
     private void Movement()
     {
@@ -60,9 +65,9 @@ public class PJ : Actors
         }
         
     }
-
-
-
+           
+            
+            
     private void AnimationController()
     {
 
@@ -77,19 +82,15 @@ public class PJ : Actors
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            animationViking.SetBool("HitLeft", true);
-            animationViking.SetBool("HitRight", false);
+            animationViking.SetTrigger("HitRight");
+            
         }
-        else if (Input.GetKeyDown(KeyCode.J))
+            
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            animationViking.SetBool("HitRight", true);
-            animationViking.SetBool("HitLeft", false);
+            animationViking.SetTrigger("HitLeft");
         }
-        else
-        {
-            animationViking.SetBool("HitLeft", false);
-            animationViking.SetBool("HitRight", false);
-        }
+     
         if (Input.GetKeyDown(KeyCode.Space))
         animationViking.SetBool("Jump", true);
         else
@@ -106,25 +107,37 @@ public class PJ : Actors
 
         }
     }
-    public void ControllerHealt()
+    private void ControllerHealt()
     {
         bar.fillAmount = hpMin / hpMax;
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("recibi daño");
         if(other.CompareTag("Weapon"))
         {
             hpMin -= 20;
-            
         }
     }
-    
+        
     public void Death()
     {
-        onDied.Invoke();
+      
+        if (timer >= maxTimer)
+        {
+            gameObject.SetActive(false);
+            gameOver.SetActive(true);
+            onDied.Invoke();
+        }
     }
-
- 
-
+        
 }
+        
+   
+
+
+
+
+
+
+
+

@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Networking.Types;
+using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class NormalEnemy : MonoBehaviour
 {
@@ -11,11 +15,15 @@ public class NormalEnemy : MonoBehaviour
     [SerializeField] float grade;
     [SerializeField] GameObject target;
     [SerializeField] bool attack;
-    [SerializeField] public int damage;
-    [SerializeField] private int hp;
+    public float hpMin;
+    public float hpMax;
+    public Image bar;
+    private float timer;
+    [SerializeField] private float maxTimer;
     
     void Start()
     {
+        hpMin = hpMax;
         ani  = GetComponent<Animator>();
         target = GameObject.Find("Viking");
     }
@@ -82,7 +90,41 @@ public class NormalEnemy : MonoBehaviour
 
     void Update()
     {
-        ControllerEnemy();
+        if (hpMin <= 0)
+        {
+            ani.SetTrigger("Dead");
+            timer += Time.deltaTime;
+            Death();
+        }
+        else
+        {
+            ControllerEnemy();
+            ControllerHealt();
+        }
+    }
+    private void ControllerHealt()
+    {
+        bar.fillAmount = hpMin / hpMax;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Axe"))
+        {
+            hpMin -= 30;
+            Debug.Log("recibi daño");
+        }
+    }
+       
+    
+    public void Death()
+    {
+        if (timer >= maxTimer)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
 }
+        
+
+
