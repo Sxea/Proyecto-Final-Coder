@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PJ : Actors
 {
@@ -14,26 +16,27 @@ public class PJ : Actors
     [SerializeField] private Transform footPosition;
     [SerializeField] private float distanceOfFloor;
     [SerializeField] private LayerMask layerTofloor;
-    private bool isActived;
-    public bool isDeath;
-    private bool walkBack = false;
-    private bool walkFoward = false;
-
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private float maxTimer;
+    private float timer;
+    //private bool isActived;
+    //public bool isDeath;
+    public float hpMin;
+    public int hpMax;
+    public Image bar;
     
-    
-    
-
-
     void Start()
     {
-        
+        hpMin = hpMax;
     }
 
 
     void Update()
     {
-        if (isDeath)
+        if (hpMin <= 0)
         {
+            animationViking.SetTrigger("Dead");
+            timer += Time.deltaTime;
             Death();
         }
         else
@@ -44,69 +47,56 @@ public class PJ : Actors
             {
                 RayCastJump();
             }
-
         }
 
-
+        ControllerHealt();
+       
     }
     private void Movement()
     {
         var hor = Input.GetAxisRaw("Horizontal");
         var ver = Input.GetAxisRaw("Vertical"); 
         var direction = new Vector3(hor, 0, ver);
-        transform.position += direction * speed * Time.deltaTime;
-        //transform.Rotate (new Vector3(0, 90, 0));
+        if (direction.magnitude >= 0.1f)
+        {
+            float targetAngle = MathF.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            transform.position += direction * speed * Time.deltaTime;
+        }
         
     }
-
-
-
+           
+            
+            
     private void AnimationController()
     {
 
-
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
-            animationViking.SetBool("WalkBack", true);
-            walkBack = true;
+            animationViking.SetBool("Run", true);
         }
         else
         {
-            animationViking.SetBool("WalkBack", false);
-            walkBack = false;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            animationViking.SetBool("WalkFoward", true);
-
-        }
-        else
-        {
-            animationViking.SetBool("WalkFoward", false);
-            walkFoward = false;
+            animationViking.SetBool("Run", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.H))
-            animationViking.SetTrigger("Block");
         if (Input.GetKeyDown(KeyCode.K))
         {
-            animationViking.SetTrigger("HitLeft");
+            animationViking.SetTrigger("HitRight");
             
         }
-
-
+            
         if (Input.GetKeyDown(KeyCode.J))
-            animationViking.SetTrigger("HitRight");
+        {
+            animationViking.SetTrigger("HitLeft");
+        }
+     
         if (Input.GetKeyDown(KeyCode.Space))
-            animationViking.SetTrigger("Jump");
+        animationViking.SetBool("Jump", true);
+        else
+        animationViking.SetBool("Jump", false);
+        
     }
-
-
-
-
-
-
-
     private void RayCastJump()
     {
         var collaiderFloor = Physics.Raycast(footPosition.position, footPosition.forward, out RaycastHit raycastInfo, distanceOfFloor, layerTofloor);
@@ -116,20 +106,38 @@ public class PJ : Actors
             vikingRigidbody.AddForce(Vector3.up * forceAmount, ForceMode.Impulse);
 
         }
-        else
-            Debug.Log("hasn´t collaider whit nothing");
     }
-
- 
+    private void ControllerHealt()
+    {
+        bar.fillAmount = hpMin / hpMax;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Weapon"))
+        {
+            hpMin -= 20;
+        }
+    }
+        
     public void Death()
     {
-        onDied.Invoke();
+      
+        if (timer >= maxTimer)
+        {
+            gameObject.SetActive(false);
+            gameOver.SetActive(true);
+            onDied.Invoke();
+        }
     }
-
-    public void Evento()
-    {
-        Debug.Log("el evento se activo");
-
-    }
-
+        
 }
+        
+   
+
+
+
+
+
+
+
+
